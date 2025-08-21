@@ -25,7 +25,7 @@ class Linear(nn.Module):
     def _init_weight(self):
         variance = 2.0 / (self.in_features + self.out_features)
         std = variance ** 0.5
-        nn.init.trunc_normal_(self.weight, mean=0, std=std, a=-3, b = 3)
+        nn.init.trunc_normal_(self.weight, mean=0, std=std, a=-3.0, b=3.0)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return einsum(x, self.weight, '... din, dout din -> ... dout')

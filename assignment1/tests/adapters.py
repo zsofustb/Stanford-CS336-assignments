@@ -551,6 +551,7 @@ def run_get_batch(
         language modeling labels.
     """
     from cs336_basics.Trainer.Data import get_batch
+    
     return get_batch(dataset=dataset, batch_size=batch_size, context_length=context_length, device=device)
 
 
@@ -587,7 +588,9 @@ def run_cross_entropy(
     Returns:
         Float[Tensor, ""]: The average cross-entropy loss across examples.
     """
-    raise NotImplementedError
+    from cs336_basics.Trainer.Loss import CrossEntropyLoss
+
+    return CrossEntropyLoss(inputs, targets)
 
 
 def run_gradient_clipping(parameters: Iterable[torch.nn.Parameter], max_l2_norm: float) -> None:

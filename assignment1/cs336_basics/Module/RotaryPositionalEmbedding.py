@@ -13,6 +13,9 @@ class RotaryPositionalEmbedding(nn.Module):
         self.register_buffer('inv_freq', inv_freq)
 
     def _rotate_half(self, x:torch.Tensor) -> torch.Tensor:
+        """
+        x -> [x1, x2] -> [-x2, x1]
+        """
         x = rearrange(x, '... (d r) -> ... d r', r=2)
         x1, x2 = torch.unbind(x, dim=-1)
         x = torch.stack((-x2, x1), dim=-1)
