@@ -46,7 +46,23 @@ def scaled_dot_product_attention(
     output = weights @ V
     return output
     
+def clip_gradient(parameters, max_l2_norm) -> None:
+    """
+    防止梯度过大，对梯度进行裁剪
+    """
+    grads = [p.grad for p in parameters if p.grad is not None]
 
+    # norm为梯度的二范数
+    norm = 0
+    for grad in grads:
+        norm += (grad ** 2).sum()
+    norm = torch.sqrt(norm)
+
+    clip_coef = min(1, max_l2_norm / (norm + 1E-6))
+    # norm > max_l2_norm的话, 说明梯度过大, clip_coef < 1, grad按照同比例缩小
+    if clip_coef < 1:
+        for grad in grads:
+            grad *= clip_coef
 
 
 
